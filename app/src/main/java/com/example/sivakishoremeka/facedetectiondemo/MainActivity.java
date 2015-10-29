@@ -37,11 +37,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        InputStream stream = getResources().openRawResource(R.raw.image01);
+        InputStream stream = getResources().openRawResource(R.raw.image00);
         Bitmap bitmap = BitmapFactory.decodeStream(stream);
+
+        /*FaceDetector detector = new FaceDetector.Builder(getApplicationContext())
+                .setTrackingEnabled(false)
+                .build();*/
 
         FaceDetector detector = new FaceDetector.Builder(getApplicationContext())
                 .setTrackingEnabled(false)
+                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
                 .build();
 
         // Create a frame from the bitmap and run face detection on the frame.

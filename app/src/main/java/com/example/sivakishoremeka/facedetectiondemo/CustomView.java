@@ -11,6 +11,7 @@ import android.util.SparseArray;
 import android.view.View;
 
 import com.google.android.gms.vision.face.Face;
+import com.google.android.gms.vision.face.Landmark;
 
 /**
  * Created by sivakishore.meka on 10/29/2015.
@@ -40,7 +41,8 @@ public class CustomView extends View {
         super.onDraw(canvas);
         if ((mBitmap != null) && (mFaces != null)) {
             double scale = drawBitmap(canvas);
-            drawFaceRectangle(canvas, scale);
+            //drawFaceRectangle(canvas, scale);
+            drawFaceAnnotations(canvas,scale);
         }
     }
 
@@ -77,6 +79,31 @@ public class CustomView extends View {
                     (float)((face.getPosition().y + face.getHeight()) * scale),
                     paint);
         }
+    }
+
+
+    /**
+     * Draws a small circle for each detected landmark, centered at the detected landmark position.
+     *
+     * Note that eye landmarks are defined to be the midpoint between the detected eye corner
+     * positions, which tends to place the eye landmarks at the lower eyelid rather than at the
+     * pupil position.
+     */
+    private void drawFaceAnnotations(Canvas canvas, double scale) {
+        Paint paint = new Paint();
+        paint.setColor(Color.GREEN);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeWidth(5);
+
+        for (int i = 0; i < mFaces.size(); ++i) {
+            Face face = mFaces.valueAt(i);
+            for (Landmark landmark : face.getLandmarks()) {
+                int cx = (int) (landmark.getPosition().x * scale);
+                int cy = (int) (landmark.getPosition().y * scale);
+                canvas.drawCircle(cx, cy, 10, paint);
+            }
+        }
+
     }
 
 }
