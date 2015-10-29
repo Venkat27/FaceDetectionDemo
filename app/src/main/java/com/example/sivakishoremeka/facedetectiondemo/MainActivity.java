@@ -52,9 +52,6 @@ public class MainActivity extends AppCompatActivity {
         CustomView overlay = (CustomView) findViewById(R.id.customView);
         overlay.setContent(bitmap, faces);
 
-        TextView faceCountView = (TextView) findViewById(R.id.face_count);
-        faceCountView.setText(faces.size() + " faces detected");
-
         detector.release();
     }
 
